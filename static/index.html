@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login with Keycloak</title>
+</head>
+<body>
+    <h1>Login with Keycloak</h1>
+    <div id="content"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/userinfo')
+                .then(response => response.json())
+                .then(data => {
+                    const content = document.getElementById('content');
+                    if (data.error) {
+                        content.innerHTML = `<a href="/login">Login</a>`;
+                    } else {
+                        content.innerHTML = `<h2>Welcome, ${data.preferred_username}</h2><a href="/logout">Logout</a>`;
+                    }
+                })
+                .catch(error => console.error('Error fetching user info:', error));
+        });
+    </script>
+</body>
+</html>
