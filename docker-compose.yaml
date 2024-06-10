@@ -38,9 +38,10 @@ services:
       - "8989:8989" # MaxScale GUI
     volumes:
       - maxscale_data:/var/lib/maxscale
-      - type: bind
-        source: ./maxscale.cnf
-        target: /etc/maxscale.cnf
+      #- ./maxscale.cnf:/etc/maxscale
+      #- type: bind
+      # source: ./maxscale.cnf
+      #  target: /etc/maxscale.cnf
     depends_on:
       - mariadb1
       - mariadb2
@@ -95,17 +96,21 @@ services:
       - mariadb_cluster
       - keycloak
 
+  
   frontend:
     build: ./frontend
     container_name: react_frontend
     ports:
-      - "4002:4002"
+      - "4002:4002"  # Map the host port 4002 to the container port 4002
     depends_on:
       - backend
       - keycloak
     networks:
       - keycloak
-
+    environment:
+      - PORT=4002  # Set the environment variable
+      #- CHOKIDAR_USEPOLLING=true  # Needed for hot reloading in some environments
+      
 networks:
   mariadb_cluster:
     driver: bridge

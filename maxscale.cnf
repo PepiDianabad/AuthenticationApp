@@ -52,8 +52,8 @@ port=6603
 type=service
 router=httpd
 servers=server1
-user=maxscale_user
-passwd=maxscale_password
+user=admin
+passwd=admin_password
 
 [MaxGUI-Listener]
 type=listener
